@@ -2,7 +2,7 @@
 
 ActuSense is a professional C++ framework for simulating sensor environments, testing sensor health, and visualizing real-time data. It is designed with modularity and extensibility in mind, making it suitable for both educational purposes and prototyping industrial sensor networks.
 
-## ✨ Features
+## Features
 
 - **Multi-Sensor Simulation**: Temperature, Pressure, 3-Axis Accelerometers, and Proximity sensors.
 - **Dynamic Environment**: Simulate thermal drift, pressure spikes, mechanical shocks, and proximity changes.
@@ -12,7 +12,7 @@ ActuSense is a professional C++ framework for simulating sensor environments, te
 - **Unit Testing**: Comprehensive test suite using GoogleTest.
 - **Containerized**: Full Docker support for reproducible builds and CI/CD.
 
-## 📂 Project Structure
+## Project Structure
 
 ```text
 ActuSense/
@@ -24,7 +24,7 @@ ActuSense/
 └── CMakeLists.txt      # Build system configuration
 ```
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 
@@ -60,11 +60,11 @@ docker build -t actusense .
 docker run -it actusense
 ```
 
-## 📊 Data Analysis
+## Data Analysis
 
 The application automatically generates `sensor_data.csv` in the execution directory. You can import this into Excel, MATLAB, or Python for further analysis.
 
-## 🛠️ Controls (in GUI mode)
+## Controls (in GUI mode)
 
 - **[H]**: Trigger Heat Wave (Hold)
 - **[S]**: Trigger Mechanical Shock (Tap)
