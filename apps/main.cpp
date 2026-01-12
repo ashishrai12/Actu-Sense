@@ -1,16 +1,18 @@
 #include <iostream>
 #include <thread>
 #include <chrono>
-#include "Environment.h"
-#include "ConcreteSensors.h"
-#include "TestFramework.h"
-#include "Visualization.h"
+#include "ActuSense/Environment.h"
+#include "ActuSense/ConcreteSensors.h"
+#include "ActuSense/TestFramework.h"
+#include "ActuSense/Visualization.h"
+#include "ActuSense/DataLogger.h"
 
 int main() {
     std::cout << "Starting Sensor Simulation System..." << std::endl;
 
     Environment env;
     TestFramework framework(env);
+    DataLogger logger("sensor_data.csv");
 
     // Create Sensors
     auto tempSensor = std::make_shared<TemperatureSensor>("Temp Sensor A");
@@ -57,6 +59,13 @@ int main() {
         // Update
         env.update(deltaTime);
         framework.update(deltaTime);
+
+        // Logging
+        logger.logHeader(framework.getSensors());
+        
+        static float totalTime = 0.0f;
+        totalTime += deltaTime;
+        logger.logData(totalTime, framework.getSensors());
 
         // Render
         viz.render(env, framework);

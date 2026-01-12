@@ -2,8 +2,8 @@
 #ifdef SFML_FOUND
 #include <SFML/Graphics.hpp>
 #endif
-#include "Environment.h"
-#include "TestFramework.h"
+#include "ActuSense/Environment.h"
+#include "ActuSense/TestFramework.h"
 #include <vector>
 #include <deque>
 

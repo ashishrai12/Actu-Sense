@@ -1,53 +1,76 @@
-# Sensor Simulation System
+# ActuSense: Sensor Simulation & Testing Framework
 
-## Overview
-This is a C++ simulation of a sensor actuation and testing system. It simulates:
-- **Environment**: Temperature, Pressure, Vibration, Proximity.
-- **Sensors**: Temperature, Pressure, Accelerometer, Proximity sensors with noise and lag.
-- **Testing**: Calibration routines and stress tests.
-- **Visualization**: Real-time graphs using SFML (or console fallback).
+ActuSense is a professional C++ framework for simulating sensor environments, testing sensor health, and visualizing real-time data. It is designed with modularity and extensibility in mind, making it suitable for both educational purposes and prototyping industrial sensor networks.
 
-## Prerequisites
-- C++ Compiler (GCC, Clang, or MSVC) supporting C++17.
-- CMake (optional, but recommended).
-- SFML 2.5+ (optional, for graphical visualization).
+## ✨ Features
 
-## Build Instructions
+- **Multi-Sensor Simulation**: Temperature, Pressure, 3-Axis Accelerometers, and Proximity sensors.
+- **Dynamic Environment**: Simulate thermal drift, pressure spikes, mechanical shocks, and proximity changes.
+- **Real-Time Visualization**: Adaptive graphical interface using SFML with historical data tracking.
+- **Automated Data Logging**: Export sensor readings to CSV for offline analysis.
+- **Calibration Framework**: Built-in routines for sensor offset calibration.
+- **Unit Testing**: Comprehensive test suite using GoogleTest.
+- **Containerized**: Full Docker support for reproducible builds and CI/CD.
 
-### Using CMake (Recommended)
-1. Create a build directory:
+## 📂 Project Structure
+
+```text
+ActuSense/
+├── apps/               # Application entry points
+├── include/ActuSense/  # Public headers
+├── src/                # Implementation files
+├── tests/              # Unit tests (GoogleTest)
+├── Dockerfile          # Container configuration
+└── CMakeLists.txt      # Build system configuration
+```
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- **C++17 Compiler** (GCC 9+, Clang 10+, or MSVC 2019+)
+- **CMake 3.14+**
+- **SFML 2.5** (Optional, for GUI)
+
+### Build & Run
+
+1. **Configure and Build**:
    ```bash
-   mkdir build
+   cmake -S . -B build -DENABLE_VISUALIZATION=ON
+   cmake --build build --config Release
+   ```
+
+2. **Run the Application**:
+   ```bash
+   ./build/apps/ActuSenseApp
+   ```
+
+3. **Run Tests**:
+   ```bash
    cd build
-   ```
-2. Configure the project:
-   ```bash
-   cmake ..
-   ```
-   *Note: If SFML is not found, the project will automatically configure in Console-only mode.*
-
-3. Build:
-   ```bash
-   cmake --build .
+   ctest --output-on-failure
    ```
 
-4. Run:
-   ```bash
-   ./SensorSimulation
-   # or on Windows:
-   .\Debug\SensorSimulation.exe
-   ```
+### Using Docker
 
-### Manual Compilation (g++)
-If you don't have CMake but have g++, you can compile directly.
-**Console Mode (No SFML):**
+Build and run without locally installing dependencies:
+
 ```bash
-g++ -std=c++17 src/*.cpp -o SensorSim
-./SensorSim
+docker build -t actusense .
+docker run -it actusense
 ```
 
-**With SFML (if installed):**
-```bash
-g++ -std=c++17 src/*.cpp -o SensorSim -DSFML_FOUND -lsfml-graphics -lsfml-window -lsfml-system
-./SensorSim
-```
+## 📊 Data Analysis
+
+The application automatically generates `sensor_data.csv` in the execution directory. You can import this into Excel, MATLAB, or Python for further analysis.
+
+## 🛠️ Controls (in GUI mode)
+
+- **[H]**: Trigger Heat Wave (Hold)
+- **[S]**: Trigger Mechanical Shock (Tap)
+- **[C]**: Run Calibration Routine
+- **[ESC]**: Exit
+
+## 📄 License
+
+This project is licensed under the MIT License - see the LICENSE file for details.

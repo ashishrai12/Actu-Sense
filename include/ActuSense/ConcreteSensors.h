@@ -1,5 +1,5 @@
 #pragma once
-#include "Sensor.h"
+#include "ActuSense/Sensor.h"
 #include <cmath>
 
 class TemperatureSensor : public Sensor {

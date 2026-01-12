@@ -2,8 +2,8 @@
 #include <vector>
 #include <memory>
 #include <map>
-#include "Sensor.h"
-#include "Environment.h"
+#include "ActuSense/Sensor.h"
+#include "ActuSense/Environment.h"
 
 struct SensorMetrics {
     float minVal = 1e9;

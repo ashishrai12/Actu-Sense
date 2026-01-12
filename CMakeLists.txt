@@ -1,26 +1,51 @@
-cmake_minimum_required(VERSION 3.10)
-project(SensorSimulation)
+cmake_minimum_required(VERSION 3.14)
+project(ActuSense VERSION 1.0.0)
 
 set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# Options
+option(BUILD_TESTS "Build unit tests" ON)
+option(ENABLE_VISUALIZATION "Enable SFML visualization" ON)
 
 # Find SFML
-find_package(SFML 2.5 COMPONENTS graphics window system)
-
-if(NOT SFML_FOUND)
-    message(WARNING "SFML not found. Please install SFML or set SFML_DIR to the directory containing SFMLConfig.cmake")
-    # Fallback or instructions could go here, but for now we assume the user will provide it.
+if(ENABLE_VISUALIZATION)
+    find_package(SFML 2.5 COMPONENTS graphics window system)
+    if(SFML_FOUND)
+        message(STATUS "SFML found, visualization enabled.")
+        add_definitions(-DSFML_FOUND)
+    else()
+        message(WARNING "SFML not found. Visualization will be disabled.")
+    endif()
 endif()
 
-include_directories(${SFML_INCLUDE_DIR})
+# Core Library
+set(LIB_SOURCES
+    src/Sensor.cpp
+    src/ConcreteSensors.cpp
+    src/Environment.cpp
+    src/TestFramework.cpp
+    src/Visualization.cpp
+    src/DataLogger.cpp
+)
 
-file(GLOB SOURCES "src/*.cpp")
-file(GLOB HEADERS "src/*.h")
+add_library(ActuSenseLib ${LIB_SOURCES})
 
-add_executable(SensorSimulation ${SOURCES} ${HEADERS})
+target_include_directories(ActuSenseLib PUBLIC 
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:include>
+)
 
 if(SFML_FOUND)
-    target_link_libraries(SensorSimulation ${SFML_LIBRARIES})
-    add_definitions(-DSFML_FOUND)
-else()
-    message(STATUS "Building without SFML linking (will fail if code uses SFML)")
+    target_link_libraries(ActuSenseLib PUBLIC sfml-graphics sfml-window sfml-system)
+endif()
+
+# Main Application
+add_executable(ActuSenseApp apps/main.cpp)
+target_link_libraries(ActuSenseApp PRIVATE ActuSenseLib)
+
+# Testing
+if(BUILD_TESTS)
+    enable_testing()
+    add_subdirectory(tests)
 endif()
