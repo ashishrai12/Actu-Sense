@@ -71,6 +71,6 @@ The application automatically generates `sensor_data.csv` in the execution direc
 - **[C]**: Run Calibration Routine
 - **[ESC]**: Exit
 
-## 📄 License
+## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
