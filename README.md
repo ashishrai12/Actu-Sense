@@ -24,6 +24,7 @@ The framework provides an automated analytics pipeline. Below is the output from
 
 ### Behavioral Deep Dive:
 *   **Temperature (Top Left)**: Demonstrates **Thermal Lag Logic**. At $t=2s$, a heat event is triggered. The sensor reading follows a first-order differential response rather than an instantaneous change, mimicking real-world thermal mass.
+*   **Pressure (Top Right)**: Illustrates **Barometric Stability Modeling**. The framework maintains a baseline atmospheric pressure (101,325 Pa) with stochastic fluctuations, validating the sensor's ability to filter environmental background noise while tracking steady-state conditions.
 *   **Accelerometer (Bottom Left)**: Features **Dynamic Mechanical Shocks**. After a primary impulse at $t=6s$, the system models exponential vibration decay as energy dissipates through the simulated mounting structure.
 *   **Proximity (Bottom Right)**: Monitors **Object Intrusion**. High-frequency noise is injected at $t=8s$ to test the robustness of detection algorithms against signal jitter.
 
