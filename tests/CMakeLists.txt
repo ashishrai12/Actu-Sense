@@ -11,6 +11,7 @@ FetchContent_MakeAvailable(googletest)
 add_executable(ActuSenseTests
     test_sensor.cpp
     test_environment.cpp
+    test_factory.cpp
 )
 
 target_link_libraries(ActuSenseTests

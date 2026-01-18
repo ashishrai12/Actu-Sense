@@ -6,6 +6,7 @@
 #include "ActuSense/TestFramework.h"
 #include "ActuSense/Visualization.h"
 #include "ActuSense/DataLogger.h"
+#include "ActuSense/SensorFactory.h"
 
 int main() {
     std::cout << "Starting Sensor Simulation System..." << std::endl;
@@ -14,16 +15,19 @@ int main() {
     TestFramework framework(env);
     DataLogger logger("sensor_data.csv");
 
-    // Create Sensors
-    auto tempSensor = std::make_shared<TemperatureSensor>("Temp Sensor A");
-    auto pressureSensor = std::make_shared<PressureSensor>("Pressure Sensor B");
-    auto accelSensor = std::make_shared<Accelerometer>("Accel Sensor C");
-    auto proxSensor = std::make_shared<ProximitySensor>("Proximity Sensor D");
+    // Initialize Factory and Registry
+    auto& factory = ActuSense::SensorFactory::getInstance();
+    
+    // Create Sensors via Factory
+    auto tempSensor = factory.create("temperature", "Temp Sensor A");
+    auto pressureSensor = factory.create("pressure", "Pressure Sensor B");
+    auto accelSensor = factory.create("accelerometer", "Accel Sensor C");
+    auto proxSensor = factory.create("proximity", "Proximity Sensor D");
 
-    framework.addSensor(tempSensor);
-    framework.addSensor(pressureSensor);
-    framework.addSensor(accelSensor);
-    framework.addSensor(proxSensor);
+    if (tempSensor) framework.addSensor(tempSensor);
+    if (pressureSensor) framework.addSensor(pressureSensor);
+    if (accelSensor) framework.addSensor(accelSensor);
+    if (proxSensor) framework.addSensor(proxSensor);
 
     Visualization viz;
 

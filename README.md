@@ -1,76 +1,67 @@
-# ActuSense: Sensor Simulation & Testing Framework
+# ActuSense: Industrial Sensor Simulation Framework
 
-ActuSense is a professional C++ framework for simulating sensor environments, testing sensor health, and visualizing real-time data. It is designed with modularity and extensibility in mind, making it suitable for both educational purposes and prototyping industrial sensor networks.
+ActuSense is a high-fidelity C++17 framework designed for the simulation, testing, and validation of multi-modal sensor networks. It decouples physical law modeling from sensor behavior, enabling engineers to stress-test data acquisition systems against complex environmental scenarios.
 
-## Features
+---
 
-- **Multi-Sensor Simulation**: Temperature, Pressure, 3-Axis Accelerometers, and Proximity sensors.
-- **Dynamic Environment**: Simulate thermal drift, pressure spikes, mechanical shocks, and proximity changes.
-- **Real-Time Visualization**: Adaptive graphical interface using SFML with historical data tracking.
-- **Automated Data Logging**: Export sensor readings to CSV for offline analysis.
-- **Calibration Framework**: Built-in routines for sensor offset calibration.
-- **Unit Testing**: Comprehensive test suite using GoogleTest.
-- **Containerized**: Full Docker support for reproducible builds and CI/CD.
+## System Architecture
 
-## Project Structure
+The project follows a layered architectural pattern to ensure strict separation of concerns and high extensibility.
 
-```text
-ActuSense/
-├── apps/               # Application entry points
-├── include/ActuSense/  # Public headers
-├── src/                # Implementation files
-├── tests/              # Unit tests (GoogleTest)
-├── Dockerfile          # Container configuration
-└── CMakeLists.txt      # Build system configuration
-```
+![Architecture Diagram](docs/architecture.svg)
+
+1.  **Physics Layer**: The `Environment` engine simulates ground-truth physical states (thermal drift, pressure gradients, mechanical impulses).
+2.  **Simulation Layer**: Concrete sensor implementations model real-world response characteristics, including thermal mass inertia and signal noise.
+3.  **Application Layer**: A centralized `Registry` and `TestFramework` handle sensor orchestration, data logging, and real-time visualization.
+
+---
+
+## Analytics & Performance Validation
+
+The framework provides an automated analytics pipeline. Below is the output from a **15-second simulation run** showcasing the fidelity of our behavioral modeling.
+
+![Sensor Analytics](docs/assets/sensor_analytics.png)
+
+### Behavioral Deep Dive:
+*   **Temperature (Top Left)**: Demonstrates **Thermal Lag Logic**. At $t=2s$, a heat event is triggered. The sensor reading follows a first-order differential response rather than an instantaneous change, mimicking real-world thermal mass.
+*   **Accelerometer (Bottom Left)**: Features **Dynamic Mechanical Shocks**. After a primary impulse at $t=6s$, the system models exponential vibration decay as energy dissipates through the simulated mounting structure.
+*   **Proximity (Bottom Right)**: Monitors **Object Intrusion**. High-frequency noise is injected at $t=8s$ to test the robustness of detection algorithms against signal jitter.
+
+---
+
+## Engineering Stack
+
+- **Language**: C++17 (Clang/GCC/MSVC)
+- **Visuals**: SFML 2.5 (Live Dashboard), Python (Offline Analytics)
+- **Testing**: GoogleTest (Unit & Integration)
+- **Deployment**: Multi-stage Docker optimization
 
 ## Getting Started
 
-### Prerequisites
+### Quick Start (Native)
+```bash
+cmake -S . -B build -DENABLE_VISUALIZATION=ON
+cmake --build build --config Release
+./build/apps/ActuSenseApp
+```
 
-- **C++17 Compiler** (GCC 9+, Clang 10+, or MSVC 2019+)
-- **CMake 3.14+**
-- **SFML 2.5** (Optional, for GUI)
-
-### Build & Run
-
-1. **Configure and Build**:
-   ```bash
-   cmake -S . -B build -DENABLE_VISUALIZATION=ON
-   cmake --build build --config Release
-   ```
-
-2. **Run the Application**:
-   ```bash
-   ./build/apps/ActuSenseApp
-   ```
-
-3. **Run Tests**:
-   ```bash
-   cd build
-   ctest --output-on-failure
-   ```
-
-### Using Docker
-
-Build and run without locally installing dependencies:
-
+### Quick Start (Docker)
 ```bash
 docker build -t actusense .
 docker run -it actusense
 ```
 
-## Data Analysis
+---
 
-The application automatically generates `sensor_data.csv` in the execution directory. You can import this into Excel, MATLAB, or Python for further analysis.
+## Controls (GUI Mode)
 
-## Controls (in GUI mode)
+- **`[H]`**: Trigger Active Heat Wave (Simulates environment temperature rise)
+- **`[S]`**: Trigger Mechanical Shock (Simulates high-G impact)
+- **`[C]`**: Initiate Calibration Sequence (Calculates sensor offsets)
+- **`[ESC]`**: Graceful Shutdown
 
-- **[H]**: Trigger Heat Wave (Hold)
-- **[S]**: Trigger Mechanical Shock (Tap)
-- **[C]**: Run Calibration Routine
-- **[ESC]**: Exit
+---
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+Distributed under the MIT License. See `LICENSE` for more information.

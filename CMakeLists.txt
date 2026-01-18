@@ -27,6 +27,7 @@ set(LIB_SOURCES
     src/TestFramework.cpp
     src/Visualization.cpp
     src/DataLogger.cpp
+    src/SensorFactory.cpp
 )
 
 add_library(ActuSenseLib ${LIB_SOURCES})
